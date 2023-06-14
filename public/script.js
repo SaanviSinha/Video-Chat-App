@@ -18,6 +18,19 @@ navigator.mediaDevices.getUserMedia({
 }).then((stream) => {
     myStream = stream
     addVideoStream(myVideo, stream)
+
+    socket.on("user-connected",(userId) => {
+    connectToNewUser(userId, stream)
+    })
+    
+    Peer.on("call", (call) => {
+        call.answer(stream)
+        const video = document.createElement("video")
+
+        call.on("stream", (userVideoStream) => {
+            addVideoStream(video, userVideoStream)
+        })
+    })
 })
 
 function addVideoStream(video, stream) {
@@ -25,6 +38,15 @@ function addVideoStream(video, stream) {
     video.addEventListener("loadedmetadata",() => {
         video.play()
         $("#video_grid").append(video)
+    })
+}
+
+function connectToNewUser(userId, stream) {
+    const call = Peer.call(userId, stream)
+    const video = document.createElement("video")
+
+    call.on("stream", (userVideoStream) => {
+        addVideoStream(video, userVideoStream)
     })
 }
 
