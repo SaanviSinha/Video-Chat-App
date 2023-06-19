@@ -19,6 +19,17 @@ const peerServer = ExpressPeerServer(server, {
 
 app.use("/peerjs", peerServer);
 
+var nodemailer = require('nodemailer')
+const transporter = nodemailer.createTransport({
+    port: 587, 
+    host: "smtp.gmail.com",
+    auth: {
+        user: 'saanvisinha261048@gmail.com',
+        pass: ''
+    },
+    secure: true,
+})
+
 app.get("/", (req, res) => {
     res.redirect(`/${uuidv4()}`);
 });
