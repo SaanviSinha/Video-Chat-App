@@ -47,6 +47,14 @@ app.post("/send-mail", (req, res) => {
         subject: "Join the Video Chat with me!",
         html: `<p>Hey there!</p><p>Come and join me for a video chat here - ${url}</p>`
     }
+    transporter.sendMail(mailData, (error, info) => {
+        if(error) {
+            return(console.log(error))
+        }
+        res.status(200).send({
+            message: "Invitation Sent!", message_id: info.messageId
+        })
+    })
 })
 
 io.on("connection", (socket) => {
