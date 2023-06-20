@@ -108,7 +108,7 @@ $(function () {
     })
 
     $("#invite_button").click(function () {
-        const to = prompt("Enter the email of your friend!")
+        const to = prompt("Enter the email address")
         let data = {
             url: window.location.href,
             to: to
@@ -119,14 +119,15 @@ $(function () {
             data: JSON.stringify(data),
             dataType: 'json',
             contentType: 'application/json',
-            success: function(result) {
+            success: function (result) {
                 alert("Invite sent!")
             },
-            error: function(result) {
+            error: function (result) {
                 console.log(result.responseJSON)
             }
         })
     })
+
 })
 
 peer.on("open", (id) => {
